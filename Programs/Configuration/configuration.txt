@@ -1,0 +1,5 @@
+location=Joondalup City Square Parking
+number-of-spaces=192
+available-spaces=4
+broker-host=localhost
+broker-port=1883

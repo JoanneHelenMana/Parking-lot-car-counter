@@ -1,0 +1,29 @@
+@startuml
+autonumber
+
+Carpark -> SenseHat : get_running_total()
+
+activate Carpark
+activate SenseHat
+
+SenseHat --> Carpark : available spaces
+Carpark -> SenseHat : get_temperature()
+SenseHat --> Carpark : temperature
+
+deactivate SenseHat
+
+Carpark -> Carpark : get_time()
+Carpark --> Carpark : current time
+Publisher -> Carpark : get_update()
+
+activate Publisher
+
+Carpark --> Publisher : provide update
+
+deactivate Carpark
+
+Publisher -> mqtt.Client : publish()
+
+deactivate Publisher
+
+@enduml

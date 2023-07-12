@@ -1,0 +1,58 @@
+@startuml
+autonumber
+
+box "Count cars on lot" #LightGrey
+participant Carpark
+participant Publisher
+end box
+
+box "Show availability of spaces" #LightBlue
+participant Subscriber
+end box
+
+activate Subscriber
+activate mqtt.Client
+
+Subscriber -> mqtt.Client : mqtt_connect()
+
+deactivate mqtt.Client
+deactivate Subscriber
+
+Carpark -> SenseHat : get_running_total()
+
+activate Carpark
+activate SenseHat
+
+SenseHat --> Carpark : available spaces
+Carpark -> SenseHat : get_temperature()
+SenseHat --> Carpark : temperature
+
+deactivate SenseHat
+
+Carpark -> Carpark : get_time()
+Carpark --> Carpark : current time
+Publisher -> Carpark : get_update()
+
+activate Publisher
+
+Carpark --> Publisher : provide update
+
+deactivate Carpark
+
+Publisher -> mqtt.Client : publish()
+
+deactivate Publisher
+activate mqtt.Client
+
+Subscriber -> mqtt.Client : on_connect()
+
+activate Subscriber
+
+Subscriber -> mqtt.Client : on_message()
+
+deactivate mqtt.Client
+
+Subscriber -> SenseHat : display()
+activate SenseHat
+
+@enduml

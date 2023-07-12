@@ -1,0 +1,44 @@
+@startuml
+Carpark "1..*" <-- "1" Publisher
+SenseHat ..> Carpark
+Configuration ..> Carpark
+
+class Carpark {
+# LOCATION: str
+# INITIAL_AVAILABLE_SPACES: int
+# TOTAL_SPACES: int
++ available_spaces: None
++ time: None
++ temperature: None
+- sense_hat
+
++ {static} from_file()
++ get_running_total(): int
++ get_temperature(): float
++ get_time(): str
+}
+
+class Publisher {
+# BROKER_HOST: str
+# BROKER_PORT: int
+# TOPIC: str
+- CLIENT: Client obj
++ update: None
++ json_update: None
+
++ {static} from_file()
++ get_update(): dict
++ publish()
+}
+
+
+class SenseHat {
+# get_temperature()
+# stick.get_events()
+}
+
+class Configuration {
++ {static} from_file()
+}
+
+@enduml
